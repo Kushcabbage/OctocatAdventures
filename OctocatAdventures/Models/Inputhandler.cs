@@ -6,18 +6,24 @@ namespace OctocatAdventures.Models
 {
     public class Inputhandler
     {
-        Dictionary<string, Func<string, bool>> ActionDict = new Dictionary<string, Func<string, bool>>()
+        static Dictionary<string, Func<string, bool>> ActionDict = new Dictionary<string, Func<string, bool>>()
         {
-            {"Move", Game.Player.Move}
+            {"move", Game.Player.Move},
+            {"take", Game.Player.Take},
+            {"inventory", Game.Player.ShowInventory }
         };
-        void HandleInput(string playerinput)
+        public static void HandleInput(string playerinput)
         {
 
-            if (string.IsNullOrEmpty(playerinput))
+            if (!string.IsNullOrEmpty(playerinput) && ActionDict.ContainsKey(playerinput.Split()[0]))
             {
+
                 ActionDict[playerinput.ToLower().Split()[0]](playerinput);
             }
-
+            else
+            {
+                Console.WriteLine("There is a time and place for that!");
+            }
 
 
         }
